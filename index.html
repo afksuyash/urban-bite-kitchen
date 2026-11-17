@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urban Bite Kitchen – Fresh Pizza, Pasta & Burgers</title>
+  <meta name="description" content="Urban Bite Kitchen - The best fresh pizza, juicy burgers, and creamy pasta in the city. Order online or visit us today!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #fffaf5;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    /* ─── CSS VARIABLES ─── */
+    :root {
+      --red:    #e63329;
+      --orange: #f97316;
+      --yellow: #fbbf24;
+      --cream:  #fffaf5;
+      --dark:   #1c1008;
+      --gray:   #6b6b6b;
+      --light:  #fff5eb;
+      --border: #f0e8de;
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(0,0,0,.10);
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1, h2, h3, .logo { font-family: 'Fredoka One', cursive; letter-spacing: .3px; }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--dark); }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: .75rem 1.5rem;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800; font-size: .95rem;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform .15s, box-shadow .15s, filter .15s;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn:active { transform: translateY(0); }
+    .btn-red    { background: var(--red);    color: #fff; box-shadow: 0 4px 16px rgba(230,51,41,.35); }
+    .btn-orange { background: var(--orange); color: #fff; box-shadow: 0 4px 16px rgba(249,115,22,.35); }
+    .btn-outline { background: transparent; color: var(--red); border: 2.5px solid var(--red); }
+    .btn-outline:hover { background: var(--red); color: #fff; }
+    .btn-dark   { background: var(--dark); color: #fff; }
+    .btn-white  { background: #fff; color: var(--red); }
+    .btn-lg     { padding: 1rem 2rem; font-size: 1.1rem; }
+    .btn-full   { width: 100%; }
+
+    /* ─── STICKY TOPBAR ─── */
+    #topbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: #fff;
+      border-bottom: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .6rem 1.2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    }
+    .logo { font-size: 1.5rem; color: var(--red); }
+    .logo span { color: var(--orange); }
+    #topbar .actions { display: flex; gap: .6rem; }
+    #topbar .btn { padding: .55rem 1.1rem; font-size: .85rem; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(160deg, #1c0f04 0%, #3a1a08 100%);
+      padding: 2rem 1.2rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=80') center/cover no-repeat;
+      opacity: .38;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 620px; }
+    .badge {
+      display: inline-block;
+      background: var(--yellow); color: var(--dark);
+      font-weight: 800; font-size: .8rem; letter-spacing: 1px;
+      padding: .3rem .9rem; border-radius: 50px;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    #hero h1 {
+      font-size: clamp(2.6rem, 8vw, 4.5rem);
+      color: #fff; line-height: 1.1;
+      margin-bottom: .6rem;
+      text-shadow: 0 4px 20px rgba(0,0,0,.5);
+    }
+    #hero p {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: #f3d9bf; margin-bottom: 1.8rem;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+
+    /* ─── SECTION WRAPPER ─── */
+    section { padding: 4rem 1.2rem; }
+    .section-label {
+      display: inline-block;
+      background: #fff0e8; color: var(--orange);
+      font-weight: 800; font-size: .75rem; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: .3rem .9rem;
+      border-radius: 50px; margin-bottom: .75rem;
+    }
+    .section-head { text-align: center; margin-bottom: 2.5rem; }
+    .section-head p { color: var(--gray); margin-top: .4rem; font-size: 1.05rem; }
+
+    /* ─── POPULAR DISHES ─── */
+    #popular { background: var(--light); }
+    .dishes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      max-width: 960px; margin: 0 auto 2rem;
+    }
+    .dish-card {
+      background: #fff; border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .dish-card:hover { transform: translateY(-5px); box-shadow: 0 10px 32px rgba(0,0,0,.14); }
+    .dish-img {
+      width: 100%; height: 190px; object-fit: cover;
+      display: block;
+    }
+    .dish-info { padding: 1rem 1.1rem 1.2rem; }
+    .dish-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .3rem; }
+    .dish-name { font-weight: 800; font-size: 1.05rem; color: var(--dark); }
+    .dish-price { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--red); }
+    .dish-desc { font-size: .875rem; color: var(--gray); }
+    .center { text-align: center; }
+
+    /* ─── MENU ─── */
+    #menu { background: var(--cream); }
+    .menu-wrap { max-width: 820px; margin: 0 auto; }
+    .menu-tabs {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      justify-content: center; margin-bottom: 2rem;
+    }
+    .tab-btn {
+      padding: .5rem 1.2rem; border-radius: 50px;
+      border: 2px solid var(--border);
+      background: #fff; font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: .9rem; cursor: pointer;
+      transition: all .15s; color: var(--gray);
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--red); color: #fff; border-color: var(--red);
+    }
+    .menu-category { display: none; }
+    .menu-category.active { display: block; }
+    .menu-item {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 1rem 0; border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item-name { font-weight: 700; font-size: 1rem; color: var(--dark); }
+    .menu-item-desc { font-size: .85rem; color: var(--gray); margin-top: .15rem; }
+    .menu-item-price {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.15rem; color: var(--red);
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ─── ORDER SECTION ─── */
+    #order {
+      background: linear-gradient(135deg, var(--red) 0%, #c0251b 100%);
+      text-align: center; color: #fff;
+    }
+    #order h2 { color: #fff; }
+    #order p { color: rgba(255,255,255,.85); margin: .5rem 0 2rem; font-size: 1.05rem; }
+    .order-btns { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .order-btns .btn { padding: 1rem 2rem; font-size: 1.05rem; }
+
+    /* ─── LOCATION ─── */
+    #location { background: var(--light); }
+    .loc-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem; max-width: 900px; margin: 0 auto;
+      align-items: start;
+    }
+    .info-block { display: flex; flex-direction: column; gap: 1.4rem; }
+    .info-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 1.2rem 1.4rem; box-shadow: var(--shadow);
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .info-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: #fff0e8; display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; flex-shrink: 0;
+    }
+    .info-card h4 { font-weight: 800; font-size: .9rem; margin-bottom: .25rem; color: var(--dark); }
+    .info-card p, .info-card a { font-size: .9rem; color: var(--gray); text-decoration: none; }
+    .info-card a:hover { color: var(--red); }
+    .hours-row { display: flex; justify-content: space-between; font-size: .88rem; color: var(--gray); padding: .15rem 0; }
+    .hours-row strong { color: var(--dark); }
+    .map-box {
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); height: 320px;
+    }
+    .map-box iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    /* ─── REVIEWS ─── */
+    #reviews { background: var(--cream); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem; max-width: 900px; margin: 0 auto;
+    }
+    .review-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 1.4rem; box-shadow: var(--shadow);
+    }
+    .stars { color: var(--yellow); font-size: 1.1rem; margin-bottom: .6rem; }
+    .review-text { font-size: .925rem; color: #444; line-height: 1.65; margin-bottom: .9rem; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: .7rem; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      font-weight: 800; display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; flex-shrink: 0;
+    }
+    .reviewer-name { font-weight: 700; font-size: .88rem; }
+    .reviewer-date { font-size: .78rem; color: var(--gray); }
+
+    /* ─── GALLERY ─── */
+    #gallery { background: var(--dark); }
+    #gallery h2 { color: #fff; }
+    #gallery .section-label { background: rgba(255,255,255,.1); color: var(--yellow); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: .6rem; max-width: 960px; margin: 0 auto;
+    }
+    .gallery-grid img {
+      width: 100%; height: 185px; object-fit: cover;
+      border-radius: 10px; display: block;
+      transition: transform .2s, opacity .2s;
+    }
+    .gallery-grid img:hover { transform: scale(1.04); opacity: .88; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #120a02; color: #c8b09a;
+      padding: 2.5rem 1.2rem 1.5rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem; max-width: 900px; margin: 0 auto 2rem;
+    }
+    footer h4 { color: #fff; font-weight: 800; margin-bottom: .8rem; font-size: .95rem; }
+    footer p, footer a { font-size: .875rem; color: #c8b09a; text-decoration: none; display: block; margin-bottom: .35rem; }
+    footer a:hover { color: var(--orange); }
+    .social-links { display: flex; gap: .8rem; margin-top: .5rem; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; text-decoration: none; color: #fff;
+      transition: background .15s; font-family: 'Nunito', sans-serif; font-weight: bold;
+    }
+    .social-btn:hover { background: var(--orange); }
+    .footer-bottom {
+      text-align: center; font-size: .8rem; color: #7a6555;
+      border-top: 1px solid #2a1a0a; padding-top: 1.2rem;
+    }
+    .footer-logo { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--orange); margin-bottom: .4rem; }
+
+    /* ─── FLOATING ORDER BUTTON (mobile) ─── */
+    #float-btn {
+      display: none;
+      position: fixed; bottom: 1.2rem; right: 1.2rem; z-index: 999;
+    }
+    #float-btn .btn {
+      width: 60px; height: 60px; border-radius: 50%; padding: 0;
+      font-size: 1.5rem; box-shadow: 0 6px 24px rgba(230,51,41,.45);
+    }
+    .float-label {
+      position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+      background: var(--dark); color: #fff;
+      font-size: .78rem; font-weight: 800;
+      padding: .35rem .75rem; border-radius: 50px;
+      white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s;
+    }
+    #float-btn:hover .float-label { opacity: 1; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      #topbar .logo { font-size: 1.25rem; }
+      .loc-wrap { grid-template-columns: 1fr; }
+      #float-btn { display: flex; }
+      .map-box { height: 240px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid img { height: 140px; }
+    }
+    @media (max-width: 440px) {
+      .hero-btns .btn { width: 100%; }
+      .order-btns .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="topbar">
+  <div class="logo">🍽️ Urban Bite <span>Kitchen</span></div>
+  <div class="actions">
+    <a href="tel:+919876543210" class="btn btn-outline">📞 Call</a>
+    <a href="#menu" class="btn btn-red">Order Online</a>
+  </div>
+</header>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="badge">⭐ Voted #1 Local Restaurant 2025</div>
+    <h1>Urban Bite Kitchen</h1>
+    <p>Crafting Fresh, Bold Flavors in the Heart of the City Since 2015</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn btn-red btn-lg">🍽️ View Menu</a>
+      <a href="#menu" class="btn btn-orange btn-lg">🛵 Order Online</a>
+      <a href="tel:+919876543210" class="btn btn-white btn-lg">📞 Call Now</a>
+    </div>
+  </div>
+</section>
+
+<section id="popular">
+  <div class="section-head">
+    <div class="section-label">⭐ Fan Favorites</div>
+    <h2>Most Popular Dishes</h2>
+    <p>The dishes our customers keep coming back for</p>
+  </div>
+  <div class="dishes-grid">
+
+    <div class="dish-card">
+      <img class="dish-img" src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80" alt="Margherita Pizza" loading="lazy">
+      <div class="dish-info">
+        <div class="dish-row">
+          <span class="dish-name">Margherita Pizza</span>
+          <span class="dish-price">₹449</span>
+        </div>
+        <div class="dish-desc">Fresh mozzarella, tomato sauce, basil. A classic done right.</div>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <img class="dish-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Urban Smash Burger" loading="lazy">
+      <div class="dish-info">
+        <div class="dish-row">
+          <span class="dish-name">Urban Smash Burger</span>
+          <span class="dish-price">₹399</span>
+        </div>
+        <div class="dish-desc">Double smash patty, cheddar, caramelized onions, special sauce.</div>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <img class="dish-img" src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80" alt="Creamy Carbonara" loading="lazy">
+      <div class="dish-info">
+        <div class="dish-row">
+          <span class="dish-name">Creamy Carbonara</span>
+          <span class="dish-price">₹499</span>
+        </div>
+        <div class="dish-desc">Spaghetti, pancetta, egg, parmesan, black pepper.</div>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <img class="dish-img" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80" alt="BBQ Chicken Pizza" loading="lazy">
+      <div class="dish-info">
+        <div class="dish-row">
+          <span class="dish-name">BBQ Chicken Pizza</span>
+          <span class="dish-price">₹549</span>
+        </div>
+        <div class="dish-desc">Smoky BBQ base, grilled chicken, red onion, cilantro.</div>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <img class="dish-img" src="https://images.unsplash.com/photo-1573140401552-3fab0b24306f?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cheesy Garlic Bread" loading="lazy">
+      <div class="dish-info">
+        <div class="dish-row">
+          <span class="dish-name">Cheesy Garlic Bread</span>
+          <span class="dish-price">₹199</span>
+        </div>
+        <div class="dish-desc">Toasted sourdough, garlic butter, melted mozzarella.</div>
+      </div>
+    </div>
+
+    <div class="dish-card">
+     <img class="dish-img" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="House Tiramisu" loading="lazy">
+        <div class="dish-row">
+          <span class="dish-name">House Tiramisu</span>
+          <span class="dish-price">₹249</span>
+        </div>
+        <div class="dish-desc">Our signature house recipe. Espresso, mascarpone, cocoa.</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="center">
+    <a href="#menu" class="btn btn-outline">📋 View Full Menu</a>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="section-head">
+    <div class="section-label">📋 Our Menu</div>
+    <h2>Full Menu</h2>
+    <p>Something delicious for everyone</p>
+  </div>
+  <div class="menu-wrap">
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="showTab('pizza')">🍕 Pizza</button>
+      <button class="tab-btn" onclick="showTab('burgers')">🍔 Burgers</button>
+      <button class="tab-btn" onclick="showTab('pasta')">🍝 Pasta</button>
+      <button class="tab-btn" onclick="showTab('sides')">🍟 Sides</button>
+      <button class="tab-btn" onclick="showTab('drinks')">🥤 Drinks</button>
+    </div>
+
+    <div id="tab-pizza" class="menu-category active">
+      <div class="menu-item"><div><div class="menu-item-name">Margherita</div><div class="menu-item-desc">Tomato, mozzarella, fresh basil</div></div><div class="menu-item-price">₹449</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Pepperoni Classic</div><div class="menu-item-desc">Extra pepperoni, mozzarella, tomato sauce</div></div><div class="menu-item-price">₹499</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">BBQ Chicken</div><div class="menu-item-desc">BBQ base, grilled chicken, red onion, cilantro</div></div><div class="menu-item-price">₹549</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Veggie Supreme</div><div class="menu-item-desc">Bell peppers, mushrooms, olives, spinach, feta</div></div><div class="menu-item-price">₹479</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Meat Lover's</div><div class="menu-item-desc">Pepperoni, sausage, ham, bacon, beef</div></div><div class="menu-item-price">₹599</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Four Cheese</div><div class="menu-item-desc">Mozzarella, cheddar, gorgonzola, parmesan</div></div><div class="menu-item-price">₹499</div></div>
+    </div>
+
+    <div id="tab-burgers" class="menu-category">
+      <div class="menu-item"><div><div class="menu-item-name">Urban Smash Burger</div><div class="menu-item-desc">Double patty, cheddar, caramelized onions, special sauce</div></div><div class="menu-item-price">₹399</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Classic Cheeseburger</div><div class="menu-item-desc">Single patty, American cheese, lettuce, tomato, pickle</div></div><div class="menu-item-price">₹299</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mushroom Swiss</div><div class="menu-item-desc">Beef patty, sautéed mushrooms, Swiss cheese, aioli</div></div><div class="menu-item-price">₹349</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Crispy Chicken Burger</div><div class="menu-item-desc">Fried chicken thigh, coleslaw, pickles, hot sauce</div></div><div class="menu-item-price">₹329</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Veggie Burger</div><div class="menu-item-desc">Black bean patty, avocado, sprouts, tomato</div></div><div class="menu-item-price">₹279</div></div>
+    </div>
+
+    <div id="tab-pasta" class="menu-category">
+      <div class="menu-item"><div><div class="menu-item-name">Spaghetti Bolognese</div><div class="menu-item-desc">Slow-cooked meat sauce, parmesan</div></div><div class="menu-item-price">₹449</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Creamy Carbonara</div><div class="menu-item-desc">Pancetta, egg, parmesan, cracked pepper</div></div><div class="menu-item-price">₹499</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Penne Arrabbiata</div><div class="menu-item-desc">Spicy tomato sauce, garlic, chilli, basil</div></div><div class="menu-item-price">₹399</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Fettuccine Alfredo</div><div class="menu-item-desc">Butter, cream, parmesan — add chicken +₹50</div></div><div class="menu-item-price">₹429</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Lasagna</div><div class="menu-item-desc">Beef & pork ragu, béchamel, layers of pasta</div></div><div class="menu-item-price">₹499</div></div>
+    </div>
+
+    <div id="tab-sides" class="menu-category">
+      <div class="menu-item"><div><div class="menu-item-name">Cheesy Garlic Bread</div><div class="menu-item-desc">Sourdough, garlic butter, mozzarella</div></div><div class="menu-item-price">₹199</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Seasoned Fries</div><div class="menu-item-desc">Crispy fries with house seasoning</div></div><div class="menu-item-price">₹149</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Sweet Potato Fries</div><div class="menu-item-desc">Served with chipotle mayo dip</div></div><div class="menu-item-price">₹179</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Caesar Salad</div><div class="menu-item-desc">Romaine, croutons, parmesan, Caesar dressing</div></div><div class="menu-item-price">₹229</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mozzarella Sticks (6pc)</div><div class="menu-item-desc">Fried mozzarella, marinara sauce</div></div><div class="menu-item-price">₹249</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">House Tiramisu</div><div class="menu-item-desc">Our signature recipe — espresso, mascarpone, cocoa</div></div><div class="menu-item-price">₹249</div></div>
+    </div>
+
+    <div id="tab-drinks" class="menu-category">
+      <div class="menu-item"><div><div class="menu-item-name">Soft Drinks</div><div class="menu-item-desc">Coke, Sprite, Fanta, Diet Coke</div></div><div class="menu-item-price">₹99</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Fresh Lemonade</div><div class="menu-item-desc">Squeezed daily, with or without sparkling</div></div><div class="menu-item-price">₹149</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Iced Tea</div><div class="menu-item-desc">Peach or classic</div></div><div class="menu-item-price">₹129</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Still / Sparkling Water</div><div class="menu-item-desc">500ml bottle</div></div><div class="menu-item-price">₹49</div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Italian Soda</div><div class="menu-item-desc">San Pellegrino — Limonata or Aranciata</div></div><div class="menu-item-price">₹179</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="section-label" style="background:rgba(255,255,255,.15);color:#ffe;margin-bottom:.75rem;">🚀 Ready to Eat?</div>
+  <h2>Order Your Food Now</h2>
+  <p>Fast delivery or quick pickup — your choice!</p>
+  <div class="order-btns">
+    <a href="#menu" class="btn btn-white btn-lg">🛵 Order Delivery</a>
+    <a href="#menu" class="btn btn-dark btn-lg">🏃 Order Pickup</a>
+    <a href="tel:+919876543210" class="btn btn-orange btn-lg">📞 Call & Order</a>
+  </div>
+</section>
+
+<section id="location">
+  <div class="section-head">
+    <div class="section-label">📍 Find Us</div>
+    <h2>Location & Hours</h2>
+  </div>
+  <div class="loc-wrap">
+    <div class="info-block">
+
+      <div class="info-card">
+        <div class="info-icon">📍</div>
+        <div>
+          <h4>Address</h4>
+          <p>100 Feet Road, Indiranagar<br>Bengaluru, Karnataka 560038</p>
+          <a href="https://maps.google.com" target="_blank" style="color:var(--orange);margin-top:.3rem;">Get Directions →</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">📞</div>
+        <div>
+          <h4>Phone</h4>
+          <a href="tel:+919876543210">+91 98765 43210</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">🕐</div>
+        <div>
+          <h4>Opening Hours</h4>
+          <div class="hours-row"><strong>Mon – Thu</strong><span>11:00 AM – 10:00 PM</span></div>
+          <div class="hours-row"><strong>Fri – Sat</strong><span>11:00 AM – 11:30 PM</span></div>
+          <div class="hours-row"><strong>Sunday</strong><span>12:00 PM – 9:30 PM</span></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="map-box">
+      <iframe 
+        src="https://maps.google.com/maps?q=100%20Feet%20Road,%20Indiranagar,%20Bengaluru&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" 
+        title="Restaurant Location">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="section-head">
+    <div class="section-label">💬 Reviews</div>
+    <h2>What Our Customers Say</h2>
+    <p>Don't take our word for it</p>
+  </div>
+  <div class="reviews-grid">
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Best pizza in the whole neighborhood! The crust is perfectly crispy and the toppings are always fresh. We order from Urban Bite every Friday night."</p>
+      <div class="reviewer">
+        <div class="avatar">JM</div>
+        <div>
+          <div class="reviewer-name">Jessica M.</div>
+          <div class="reviewer-date">Google Review · 2 weeks ago</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"The carbonara is absolutely incredible — tastes just like my grandma used to make. Huge portions too. Delivery was super fast, food arrived hot!"</p>
+      <div class="reviewer">
+        <div class="avatar">RC</div>
+        <div>
+          <div class="reviewer-name">Rahul C.</div>
+          <div class="reviewer-date">Google Review · 1 month ago</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Went for the smash burger and stayed for dessert. The tiramisu is to die for. Friendly staff, cozy vibe, and the food is consistently amazing every single time."</p>
+      <div class="reviewer">
+        <div class="avatar">SP</div>
+        <div>
+          <div class="reviewer-name">Sarah P.</div>
+          <div class="reviewer-date">Zomato Review · 3 weeks ago</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-head">
+    <div class="section-label">📸 Food Gallery</div>
+    <h2>Fresh From Our Kitchen</h2>
+  </div>
+  <div class="gallery-grid">
+    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&q=75" alt="Pizza" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=75" alt="Burger" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500&q=75" alt="Pasta" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=75" alt="BBQ Pizza" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1573140401552-3fab0b24306f?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Garlic Bread" loading="lazy">
+<img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tiramisu" loading="lazy">
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">🍽️ Urban Bite Kitchen</div>
+      <p>Your neighborhood spot for bold flavors.<br>Come hungry, leave happy.</p>
+      <div class="social-links">
+        <a class="social-btn" href="#menu" aria-label="Facebook">Fb</a>
+        <a class="social-btn" href="#menu" aria-label="Instagram">Ig</a>
+        <a class="social-btn" href="#menu" aria-label="Twitter">X</a>
+      </div>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>100 Feet Road, Indiranagar, Bengaluru, Karnataka 560038</p>
+      <a href="tel:+919876543210">+91 98765 43210</a>
+      <a href="mailto:hello@urbanbitekitchen.com">hello@urbanbitekitchen.com</a>
+    </div>
+    <div>
+      <h4>Hours</h4>
+      <p>Mon – Thu: 11am – 10pm</p>
+      <p>Fri – Sat: 11am – 11:30pm</p>
+      <p>Sunday: 12pm – 9:30pm</p>
+    </div>
+    <div>
+      <h4>Order</h4>
+      <a href="#menu">🛵 Order Delivery</a>
+      <a href="#menu">🏃 Order Pickup</a>
+      <a href="#menu">📋 View Menu</a>
+      <a href="tel:+919876543210">📞 Call to Order</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Urban Bite Kitchen. All rights reserved. Made with ❤️ in Bengaluru.
+  </div>
+</footer>
+
+<div id="float-btn">
+  <span class="float-label">Order Now</span>
+  <a href="#menu" class="btn btn-red">🛵</a>
+</div>
+
+<script>
+  // Menu tab switcher
+  function showTab(name) {
+    document.querySelectorAll('.menu-category').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Hide float btn when near footer
+  const floatBtn = document.getElementById('float-btn');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY + window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+    floatBtn.style.opacity = scrolled > docHeight - 200 ? '0' : '1';
+  });
+
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = 1;
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.dish-card, .review-card, .info-card').forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .4s ease, transform .4s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html> 
